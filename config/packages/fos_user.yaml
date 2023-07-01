@@ -1,0 +1,13 @@
+# config/packages/fos_user.yaml
+fos_user:
+  db_driver: orm
+  firewall_name: main
+  user_class: App\Entity\User
+  registration:
+    confirmation:
+      enabled: false
+  from_email:
+    address: 'demo@demo.com'
+    sender_name: 'demo'
+  service:
+    mailer: 'fos_user.mailer.noop'

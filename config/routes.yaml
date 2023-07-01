@@ -1,3 +1,7 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+index:
+    path: /
+    controller: App\Controller\BookController::index
+
+/book_list:
+    path: /book/{slug}
+    controller: App\Controller\BookController::show

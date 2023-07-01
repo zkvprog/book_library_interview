@@ -28,3 +28,19 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\EventListener\BookListener:
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+
+    admin.author:
+        class: App\Admin\AuthorAdmin
+        arguments: [~, App\Entity\Author, ~]
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Author, manager_type: orm, label: Author }
+
+    admin.book:
+        class: App\Admin\BookAdmin
+        arguments: [~, App\Entity\Book, ~]
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Book, manager_type: orm, label: Book }

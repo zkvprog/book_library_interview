@@ -49,4 +49,25 @@ class BookRepository extends ServiceEntityRepository
         }
     }
 
+    public function getMultiAuthorBook()
+    {
+        $sql = "SELECT id, name, COUNT(ba.author_id) as count FROM book LEFT JOIN book_author as ba ON id = ba.book_id GROUP BY id HAVING COUNT(ba.author_id) >= 2";
+        $stmt = $this->_em->getConnection()->prepare($sql);
+        $res = $stmt->executeQuery();
+        return $res->fetchAllAssociative();
+    }
+
+    public function getMultiAuthorBookUsingDoctrine()
+    {
+        $qb = $this->createQueryBuilder('b');
+
+        return $qb
+            ->select('b.id, b.name')
+            ->leftJoin('b.author', 'authors')
+            ->addSelect('COUNT(authors) as total')
+            ->groupBy('b')
+            ->having($qb->expr()->gte($qb->expr()->count('authors'), 2))
+            ->getQuery()
+            ->getResult();
+    }
 }
